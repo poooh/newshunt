@@ -1,0 +1,2 @@
+# newshunt
+hackathon

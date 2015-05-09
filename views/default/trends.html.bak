@@ -1,0 +1,6 @@
+<!DOCTYPE html>
+<html>
+<body>
+{{=BEAUTIFY(response.vars)}}
+</body>
+</html>

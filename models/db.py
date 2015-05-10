@@ -11,7 +11,7 @@
 
 if not request.env.web2py_runtime_gae:
     ## if NOT running on Google App Engine use SQLite or other DB
-    db = DAL('mysql:://root:1604baba@localhost/newshunt')
+    db = DAL('mysql:://root:1604baba@localhost/newshunt',migrate=False)
     #db = DAL('mongodb://newshuntuser:newshuntpassword2015@dbh04.mongolab.com:27047/newshuntdatabse')
 else:
     ## connect to Google BigTable (optional 'google:datastore://namespace')
@@ -62,9 +62,9 @@ auth.settings.reset_password_requires_verification = True
 ## register with janrain.com, write your domain:api_key in private/janrain.key
 from gluon.contrib.login_methods.rpx_account import use_janrain
 use_janrain(auth,filename='private/janrain.key')
-'''db.define_table('tw_details',
+db.define_table('tw_details',
     Field('screen_name','TEXT'),
     Field('user_id''integer'),
     Field('tw_token','TEXT'),
-    Field('tw_token_secret','TEXT'))'''
+    Field('tw_token_secret','TEXT'))
 

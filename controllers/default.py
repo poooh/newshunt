@@ -8,6 +8,7 @@ import cgi
 import cgitb; cgitb.enable()
 import json
 
+
 def index():
     return dict()
 
@@ -58,8 +59,16 @@ def tw_trends():
         #response, content = client.request('https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=poojakvj', "GET")
         #response, content = client.request('https://api.twitter.com/1.1/trends/available.json', "GET")
         response, content = client.request('https://api.twitter.com/1.1/trends/place.json?id=23424848', "GET")
-        data = dict(parse_qsl(content))
-        return dict(content = data)
+        data = json.loads(content)
+        #serch_trends = data[0]["trends"][1]['name']
+        toptrends = []
+        for i in data[0]["trends"]:
+        	serch_trends = i
+        	Ndata = serch_trends['name']
+        	obj = Ndata.split("#")
+        	toptrends.append(obj)
+        #print toptrends
+        return dict(content = toptrends)
 
 def get_extented_token():
     token = request.vars.token

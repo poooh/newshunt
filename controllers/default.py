@@ -70,53 +70,5 @@ def tw_trends():
         #print toptrends
         return dict(content = toptrends)
 
-def get_extented_token():
-    token = request.vars.token
-    url1 = "https://graph.facebook.com/"
-    url1 += 'me?access_token=%s'%(token)
-    details = urllib2.urlopen(url1)
-    dict_response = json.loads(details.read())
-    name = dict_response['name']
-    email_id = dict_response['email']
-    fb_id = dict_response['id']
-    session.email_id = email_id
-    session.fb_id = fb_id
-    url = "https://graph.facebook.com/"
-    url += "oauth/access_token?client_id="+fbconfig.app_id+"&client_secret="+fbconfig.app_secret
-    url += "&grant_type=fb_exchange_token"
-    url += "&fb_exchange_token=%s"%(token)
 
-    data = urllib2.urlopen(url)
 
-    interm = data.read().split("=")
-    token = interm[1].split("&")
-    extended_token = token[0]
-    session.extended_token = extended_token
-    expires = interm[2]
-
-def fbuser():
-    token = request.vars.token
-    url1 = "https://graph.facebook.com/"
-    url1 += 'me?access_token=%s'%(token)
-    details = urllib2.urlopen(url1)
-    dict_response = json.loads(details.read())
-    name = dict_response['name']
-    email_id = ""
-    try:
-        email_id = dict_response['email']
-    except:
-        pass
-    fb_id = dict_response['id']
-    url = "https://graph.facebook.com/"
-    url += "oauth/access_token?client_id="+fbconfig.app_id+"&client_secret="+fbconfig.app_secret
-    url += "&grant_type=fb_exchange_token"
-    url += "&fb_exchange_token=%s"%(token)
-
-    data = urllib2.urlopen(url)
-    interm = data.read().split("=")
-    token = interm[1].split("&")
-    extended_token = token[0]
-    session.extended_token = extended_token
-    expires = interm[2]
-    fb_status = db.executesql("""INSERT IGNORE INTO  fb_details(name,email_id,fb_id,access_token,expiry) VALUES (%s,%s,%s,%s,%s);""",(name,email_id,session.fb_id,extended_token,expires))
-    return dict()
